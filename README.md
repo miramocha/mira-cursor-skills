@@ -1,53 +1,48 @@
 # mira-cursor-skills
 
-Personal [Cursor Agent Skills](https://cursor.com/docs/skills) for Unity, C#, and Plastic SCM workflows.
+Personal and project [Cursor Agent Skills](https://cursor.com/docs/skills) for Unity, Grid Dungeon, Blender/VRoid, and agent workflows.
 
-## Skills
+## Skills (14)
+
+### General / tooling
 
 | Skill | Invoke | Purpose |
 |-------|--------|---------|
 | [csharpier-format](csharpier-format/) | `/csharpier-format` | Run [CSharpier](https://github.com/belav/csharpier) on `.cs` files |
 | [code-review-unity](code-review-unity/) | `/code-review-unity` | Unity-focused code / PR review |
 | [plastic-scm-diff-review](plastic-scm-diff-review/) | `/plastic-scm-diff-review` | Review pending Plastic SCM (UVCS) changes via `cm` |
+| [pull-next-backlog-ticket](pull-next-backlog-ticket/) | — | Pull next item from GitHub Project backlog |
 
-## Install (global — all projects)
+### Blender / VRoid
 
-Clone this repo, then link each skill into your Cursor skills directory:
+| Skill | Invoke | Purpose |
+|-------|--------|---------|
+| [blender-bone-remap](blender-bone-remap/) | — | Remap VRoid/VRM armature bones |
+| [vroid-shapekey-remap](vroid-shapekey-remap/) | — | Rename VRoid `Fcl_*` shape keys |
+| [vroid-vrm-blender-cleanup](vroid-vrm-blender-cleanup/) | — | VRoid/VRM Blender cleanup workflow |
 
-```powershell
-git clone https://github.com/miramocha/mira-cursor-skills.git
-$skills = "$env:USERPROFILE\.cursor\skills"
-New-Item -ItemType Directory -Force -Path $skills | Out-Null
-$repo = "<path-to-clone>"  # e.g. D:\MiraGameDev\mira-cursor-skills
+### Grid Dungeon (Unity / UITK)
 
-@("csharpier-format", "code-review-unity", "plastic-scm-diff-review") | ForEach-Object {
-  cmd /c mklink /J "$skills\$_" "$repo\$_"
-}
-```
+| Skill | Invoke | Purpose |
+|-------|--------|---------|
+| [prettier-uitk-format](prettier-uitk-format/) | — | Format `.uxml` / `.uss` with Prettier |
+| [audit-centralized-ui-services](audit-centralized-ui-services/) | — | Audit UI against centralized-services spec |
+| [audit-uitk-uss-class-toggles](audit-uitk-uss-class-toggles/) | — | Audit inline `style` vs USS class toggles |
+| [validate-unity-meta](validate-unity-meta/) | — | Validate Unity `.meta` GUIDs |
+| [visualize-uitk-uxml](visualize-uitk-uxml/) | — | ASCII UXML hierarchy diagrams |
+| [stratum-floor-layout-check](stratum-floor-layout-check/) | — | S1 floor asset validation |
+| [test-plan-grid-dungeon](test-plan-grid-dungeon/) | — | GitHub/PR test plan templates |
 
-Restart Cursor or open a new Agent chat so skills are discovered.
+## Install
 
-## Install (per project)
+See [Cursor skills documentation](https://cursor.com/docs/skills) for global, per-project, and GitHub remote install options.
 
-Copy (or submodule) skill folders into your repo:
+**Remote rule (GitHub):** `https://github.com/miramocha/mira-cursor-skills`
 
-```text
-your-project/
-└── .cursor/
-    └── skills/
-        ├── csharpier-format/
-        ├── code-review-unity/
-        └── plastic-scm-diff-review/
-```
-
-## Install from GitHub in Cursor
-
-1. **Cursor Settings** → **Rules**
-2. **Add Rule** → **Remote Rule (GitHub)**
-3. Enter: `https://github.com/miramocha/mira-cursor-skills`
-
-See [Installing skills from GitHub](https://cursor.com/docs/skills#installing-skills-from-github).
+Restart Cursor or open a new Agent chat after install so skills are discovered.
 
 ## Updating
 
-Pull the repo; junctions pick up changes automatically. If you copied files into `.cursor/skills/`, copy again or use junctions.
+Pull this repo. If you linked skill folders, updates apply automatically; if you copied them, refresh from the latest checkout.
+
+Maintainers can re-sync from upstream skill sources with `sync-skills.ps1` at the repo root.

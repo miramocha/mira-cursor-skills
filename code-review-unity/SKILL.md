@@ -2,12 +2,24 @@
 name: code-review-unity
 description: >-
   Reviews Unity C# and related assets for correctness, Unity pitfalls, and
-  project conventions. Use when the user asks for a code review, PR review,
-  or feedback on Unity changes in this repo; also when auditing asmdef
-  boundaries, UI Toolkit bindings, or migration safety.
+  project conventions. Auto-enables caveman mode (full) for review output.
+  Use when the user asks for a code review, PR review, or feedback on Unity
+  changes in this repo; also when auditing asmdef boundaries, UI Toolkit
+  bindings, or migration safety.
 ---
 
 # Unity code review (Cursor)
+
+## On invoke (required)
+
+**First action:** activate **caveman** mode before reading diff or writing findings.
+
+1. Read and follow the **caveman** skill (`~/.agents/skills/caveman/SKILL.md`, or user invokes `/caveman`).
+2. Default intensity: **full** (user may override with `/caveman lite|ultra|…`).
+3. Caveman for all user-facing review prose — summary, findings, severity blurbs, chat wrap-up.
+4. **Normal (not caveman):** code citations, line ranges, fenced diffs, severity tables if used, commits/PRs, security warnings.
+5. Stays active until user says `stop caveman` or `normal mode`.
+6. **fresh-reviewer subagent:** include in prompt — "Findings prose: caveman full; code/symbols exact; no story/dialogue edits per code-review-no-story-edits.mdc."
 
 ## When this skill applies
 
@@ -22,9 +34,22 @@ Use for reviews of Unity C#, `asmdef` layout, UI Toolkit / UXML, ScriptableObjec
 
 Do **not** assume a single AI product beyond Cursor Agent; instructions here are tooling-agnostic except where Cursor paths are named.
 
+### Independent review (griddungeon-game)
+
+When you **implemented** the change in **griddungeon-game**, do **not** apply this checklist in the same thread as the author.
+
+1. For agent-created commits: review **after** commit (`git show HEAD`); for branch/PR review: `git diff` vs base (and `--staged` if needed). List changed paths.
+2. Delegate to the **fresh-reviewer** subagent (`.cursor/agents/fresh-reviewer.md`, Task tool, `readonly: true`).
+3. Subagent prompt: **only** diff/paths, issue AC, and applicable `.cursor/rules/` — no implementation narrative.
+4. Parent posts subagent output; fix **Blockers** in a follow-up commit (or before push/close-out). Do **not** block the initial commit on review.
+
+For a fully fresh session, the user may instead open a **new** chat and invoke `@code-review-unity` with diff/branch only.
+
 ## Workspace rules as review gates
 
-When `.cursor/rules/` defines architecture constraints (assemblies, UI Toolkit bindings, namespaces, etc.), read them and treat them as **mandatory gates** for changed paths they scope. **Do not duplicate rule text in this skill** — cite the rule file (path + section) when flagging violations.
+When `.cursor/rules/` defines architecture constraints (assemblies, UI Toolkit bindings, namespaces, etc.), read them and treat them as **mandatory gates** for changed paths they scope.
+
+**Story/dialogue:** If `code-review-no-story-edits.mdc` is present, do **not** change story or dialogue during review — flag copy issues only unless the user explicitly requested story edits. **Do not duplicate rule text in this skill** — cite the rule file (path + section) when flagging violations.
 
 If no relevant rules apply to the change, skip this gate unless the user supplies standards.
 

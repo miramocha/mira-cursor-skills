@@ -10,7 +10,7 @@ description: >-
 ## When to use
 
 - User wants **all** `*.cs` files formatted, or a **directory / project** run through CSharpier.
-- After large edits or before commit when CSharpier is the team formatter.
+- **Before handoff** or **before commit** when `.cs` is in scope (`format-before-handoff-and-commit.mdc`).
 
 ## Preconditions
 

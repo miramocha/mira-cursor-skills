@@ -1,0 +1,18 @@
+{
+  "projectUrl": "https://github.com/users/miramocha/projects/3",
+  "name": "Codename: GridDungeon",
+  "owner": "miramocha",
+  "number": 3,
+  "readyStatus": "Ready",
+  "backlogStatus": "Backlog",
+  "inProgressStatus": "In progress",
+  "inReviewStatus": "In review",
+  "doneStatuses": ["Done"],
+  "priorityOrder": ["P0", "P1", "P2"],
+  "sizeOrder": ["XS", "S", "M", "L", "XL"],
+  "repoPrefer": "game",
+  "excludeLabels": ["blocked", "wontfix"],
+  "preferLabels": ["required"],
+  "limit": 50,
+  "pullOrderDoc": "https://github.com/miramocha/griddungeon-design-docs/blob/main/docs/archive/mvp1-spec.md#7-pull-order-github-backlog"
+}
